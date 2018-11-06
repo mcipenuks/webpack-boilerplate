@@ -1,13 +1,12 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: [
         './src/js/app.js',
-        './src/less/app.less'
+        './src/scss/app.scss'
     ],
     plugins: [
         new MiniCssExtractPlugin({
@@ -35,16 +34,13 @@ module.exports = {
                 }
             },
             {
-                test: /\.less$/,
+                test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
+                        loader: 'css-loader'
                     },
-                    `less-loader`,
+                    'sass-loader',
                 ],
             },
             {
@@ -53,11 +49,16 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '[path]/[name].[ext]',
-                            context: ''
+                            name: '[name].[ext]',
+                            outputPath: 'img/',
+                            publicPath: 'img/'
                         }
                     }
                 ]
+            },
+            {
+                test: /\.html$/,
+                use: ['html-loader']
             }
         ]
     }
